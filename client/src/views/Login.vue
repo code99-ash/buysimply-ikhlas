@@ -1,73 +1,93 @@
 <template>
   <div class="auth-container">
     <aside class="auth-image bg-purple-light">
-        <header class="w-full">
-            <img src="/images/logo.png" alt="Logo" />
-        </header>
+      <header class="w-full">
+        <img src="/images/logo.png" alt="Logo" />
+      </header>
 
-        <main class="auth-image-main">
-            <img src="/images/joy-dance.png" alt="" />
-            <footer class="auth-footer text-center">
-                <p class="heading-bold-20 text-primary">Team Achieve</p>
-                <p  class="heading-bold-18 text-gray-8">Your perfect solution for funding your  desires</p>
-            </footer>
-        </main>
-    </aside>
-    <section class="auth-main">
-        <header class="text-center">
-            <h1 class="form-title text-primary">Welcome Back</h1>
-            <p class="form-desc text-gray-8">Enter your email address and password to access your account.</p>
-        </header>
-
-        <main class="form">
-            <div class="form-group">
-                <label for="email" class="body-1">Email address</label>
-                <div class="input-group">
-                    <input 
-                        placeholder="Enter your email" 
-                        id="email" 
-                        class="body-2" 
-                        v-model="auth.email"
-                    />
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password" class="body-1">Password</label>
-                <div class="input-group">
-                    <input 
-                        placeholder="Enter your password" 
-                        id="password" 
-                        class="body-2" 
-                        v-model="auth.password"
-                    />
-                    <button class="pwd-button">
-                        <AppIcon name="eye" />
-                    </button>
-                </div>
-                <div class="password-footer">
-                    <CheckBox label="Remember me" :checked="auth.rememberMe" @onCheck="onCheck" />
-
-                    <router-link to="/#" class="body-2 text-primary">
-                        Forgot Password?
-                    </router-link>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <button class="submit-btn button-text-large" :disabled="loading" @click="login">
-                {{ loading ? 'Please wait...' : 'Login' }}
-            </button>
-            <p class="text-center body-1 text-gray-8">
-                {{"Don't have an account? "}} 
-                <router-link to="/register" class="text-primary subtitle-1">
-                    Sign up
-                </router-link>
-            </p>
+      <main class="auth-image-main">
+        <img src="/images/joy-dance.png" alt="" />
+        <footer class="auth-footer text-center">
+          <p class="heading-bold-20 text-primary">Team Achieve</p>
+          <p class="heading-bold-18 text-gray-8">
+            Your perfect solution for funding your desires
+          </p>
         </footer>
+      </main>
+    </aside>
+
+    <section class="auth-main">
+      <header class="text-center">
+        <h1 class="form-title text-primary">Welcome Back</h1>
+        <p class="form-desc text-gray-8">
+          Enter your email address and password to access your account.
+        </p>
+      </header>
+
+      <main class="form">
+        <!-- ✅ Error message -->
+        <transition name="fade" mode="out-in">
+          <div v-if="errorMessage" class="error-alert" role="alert" @click="clearError">
+            <span>{{ errorMessage }}</span>
+          </div>
+        </transition>
+
+        <div class="form-group">
+          <label for="email" class="body-1">Email address</label>
+          <div class="input-group">
+            <input
+              placeholder="Enter your email"
+              id="email"
+              class="body-2"
+              v-model="auth.email"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="body-1">Password</label>
+          <div class="input-group">
+            <input
+              placeholder="Enter your password"
+              id="password"
+              type="password"
+              class="body-2"
+              v-model="auth.password"
+            />
+            <button class="pwd-button">
+              <AppIcon name="eye" />
+            </button>
+          </div>
+          <div class="password-footer">
+            <CheckBox
+              label="Remember me"
+              :checked="auth.rememberMe"
+              @onCheck="onCheck"
+            />
+
+            <router-link to="/#" class="body-2 text-primary">
+              Forgot Password?
+            </router-link>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <button class="submit-btn button-text-large" :disabled="loading" @click="login">
+          {{ loading ? 'Please wait...' : 'Login' }}
+        </button>
+
+        <p class="text-center body-1 text-gray-8">
+          {{"Don't have an account? "}}
+          <router-link to="/register" class="text-primary subtitle-1">
+            Sign up
+          </router-link>
+        </p>
+      </footer>
     </section>
   </div>
 </template>
+
 
 <script lang="ts">
 import AppIcon from '@/components/app-icon';
@@ -92,6 +112,10 @@ export default {
   methods: {
     onCheck(checked: boolean) {
       this.auth.rememberMe = checked;
+    },
+
+    clearError() {
+      this.errorMessage = '';
     },
 
     async login() {
@@ -280,4 +304,33 @@ footer {
     outline: none;
     border-radius: 8px;;
 }
+
+.error-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffeaea;
+  color: #c62828;
+  border: 1px solid #f44336;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 </style>
