@@ -3,12 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as fs from 'fs';
 import * as path from 'path';
-import { StaffEntity } from './entities/staff.entity';
+import { IJwtStaffPayload, IStaffEntity } from './entities/staff.entity';
 
 
 @Injectable()
 export class AuthService {
-    private readonly staffList: StaffEntity[] = [];
+    private readonly staffList: IStaffEntity[] = [];
 
     constructor(
         private readonly jwtService: JwtService
@@ -22,11 +22,11 @@ export class AuthService {
         }
     }
 
-    findByEmail(email: string): StaffEntity | undefined {
+    findByEmail(email: string): IStaffEntity | undefined {
         return this.staffList.find((staff) => staff.email === email);
     }
 
-    validateCredentials(email: string, password: string): StaffEntity | null {
+    validateCredentials(email: string, password: string): IStaffEntity | null {
         const staff = this.findByEmail(email);
         if (!staff) return null;
         
@@ -38,7 +38,7 @@ export class AuthService {
         const user = this.validateCredentials(email, password);
         if (!user) return null;
 
-        const payload = { id: user.id, email: user.email, role: user.role, name: user.name };
+        const payload: IJwtStaffPayload = { id: user.id, email: user.email, role: user.role, name: user.name };
         return this.jwtService.sign(payload);
     }
 

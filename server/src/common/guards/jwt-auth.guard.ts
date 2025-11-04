@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { StaffEntity } from 'src/auth/entities/staff.entity';
+import { IStaffEntity } from 'src/auth/entities/staff.entity';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -40,5 +40,5 @@ export class JwtAuthGuard implements CanActivate {
 }
 
 export type ExpressRequest = Request & {
-  user?: StaffEntity;
+  user?: IStaffEntity;
 };
