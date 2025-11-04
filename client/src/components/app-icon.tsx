@@ -1,0 +1,43 @@
+import { defineComponent, type PropType } from 'vue'
+
+// 1️⃣ define your SVG map (you can import files or inline paths)
+const icons = {
+  eye: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12Z" stroke="#7D7D7D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 12C3.6 7.903 7.336 5 12 5C16.664 5 20.4 7.903 22 12C20.4 16.097 16.664 19 12 19C7.336 19 3.6 16.097 2 12Z" stroke="#7D7D7D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  ),
+}
+
+export default defineComponent({
+  name: 'AppIcon',
+  props: {
+    name: {
+      type: String as PropType<keyof typeof icons>,
+      required: true,
+    },
+    size: {
+      type: [Number, String],
+      default: 24,
+    },
+    color: {
+      type: String,
+      default: 'currentColor',
+    },
+  },
+  setup(props) {
+    return () => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={props.size}
+        height={props.size}
+        viewBox="0 0 24 24"
+        fill="none"
+        style={{ color: props.color }}
+      >
+        {icons[props.name]}
+      </svg>
+    )
+  },
+})
