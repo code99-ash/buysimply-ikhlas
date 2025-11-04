@@ -25,7 +25,7 @@
       </header>
 
       <main class="form">
-        <!-- ✅ Error message -->
+        <!-- Error message -->
         <transition name="fade" mode="out-in">
           <div v-if="errorMessage" class="error-alert" role="alert" @click="clearError">
             <span>{{ errorMessage }}</span>
@@ -132,7 +132,7 @@ export default {
             rememberMe: this.auth.rememberMe
           },
           {
-            withCredentials: true, // ✅ critical for cookies
+            withCredentials: true,
             headers: {
               'Content-Type': 'application/json',
             },
@@ -167,7 +167,6 @@ export default {
   min-height: 100vh;
 }
 
-/* Optional styling */
 .auth-image {
   padding: 2rem;
   display: flex;
