@@ -55,7 +55,9 @@
         </main>
 
         <footer>
-            <button class="submit-btn button-text-large">Sign in</button>
+            <button class="submit-btn button-text-large" :disabled="loading" @click="login">
+                {{ loading ? 'Please wait...' : 'Login' }}
+            </button>
             <p class="text-center body-1 text-gray-8">
                 {{"Don't have an account? "}} 
                 <router-link to="/register" class="text-primary subtitle-1">
@@ -70,27 +72,69 @@
 <script lang="ts">
 import AppIcon from '@/components/app-icon';
 import CheckBox from '@/components/check-box.vue';
+import axios from 'axios'; // Make sure you installed axios: npm i axios
 
 export default {
-    name: 'Login',
-    components: {
-        CheckBox,
-        AppIcon,
+  name: 'Login',
+  components: {
+    CheckBox,
+    AppIcon,
+  },
+  data: () => ({
+    loading: false,
+    auth: {
+      email: '',
+      password: '',
+      rememberMe: false,
     },
-    data: () => ({
-        auth: {
-            email: '',
-            password: '',
-            rememberMe: false,
+    errorMessage: '',
+  }),
+  methods: {
+    onCheck(checked: boolean) {
+      this.auth.rememberMe = checked;
+    },
+
+    async login() {
+      this.loading = true;
+      this.errorMessage = '';
+
+      try {
+        // Make login request
+        const response = await axios.post(
+          `http://localhost:3000/auth/login`,
+          {
+            email: this.auth.email,
+            password: this.auth.password,
+            rememberMe: this.auth.rememberMe
+          },
+          {
+            withCredentials: true, // ✅ critical for cookies
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        console.log('Login successful:', response);
+
+        this.$router.push("/");
+
+      } catch (error: any) {
+        console.error('Login error:', error.response);
+        if (axios.isAxiosError(error)) {
+          this.errorMessage =
+            error.response?.data?.message || 'Invalid email or password';
+        } else {
+          this.errorMessage = 'Network error. Please try again.';
         }
-    }),
-    methods: {
-        onCheck(checked: boolean) {
-            this.auth.rememberMe = checked;
-        }
-    }
-}
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+};
 </script>
+
 
 <style scoped>
 .auth-container {
