@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Lora';
+  src: url('@/assets/fonts/Lora.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans';
+  src: url('@/assets/fonts/NunitoSans.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+    --primary-color: #61227D;
+    --purple-light: #F8EAFF;
+    --gray-3: #DDDDDD;
+    --gray-5: #C6C6C6;
+    --gray-6: #9C9C9C;
+    --gray-7: #7D7D7D;
+    --gray-8: #5E5E5E;
+    --gray-9: #3E3E3E;
+    --white: #FFFFFF;
+    --black: #000000;
+
+    --font-lora: 'Lora', serif;
+    --font-nunito-sans: 'NunitoSans', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.heading-bold-32 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 48px;
+}
+
+.heading-bold-24 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.body-1 {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.body-2 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.button-text-large {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 26px;
+}
+
+.subtitle-1 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
