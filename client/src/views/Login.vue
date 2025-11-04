@@ -92,7 +92,7 @@
 <script lang="ts">
 import AppIcon from '@/components/app-icon';
 import CheckBox from '@/components/check-box.vue';
-import axios from 'axios'; // Make sure you installed axios: npm i axios
+import axios from 'axios';
 
 export default {
   name: 'Login',
