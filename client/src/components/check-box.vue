@@ -6,25 +6,26 @@
         <span class="body-2 text-gray-7" v-if="label">{{label}}</span>
     </section>
     
-</template> 
+</template>
 
 <script lang="ts">
 export default {
-    data: () => ({
-        checked: false,
-    }),
     emits: ['onCheck'],
     props: {
         label: {
             type: String,
             default: '',
             required: false,
-        }
+        },
+        checked: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
     },
     methods: {
         toggleCheck() {
-            this.checked = !this.checked;
-            this.$emit('onCheck', this.checked);
+            this.$emit('onCheck', !this.checked);
         }
     }
 }
