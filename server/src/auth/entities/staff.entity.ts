@@ -1,4 +1,4 @@
-export type StaffRole = 'staff' | 'admin' | 'superadmin';
+export type StaffRole = 'staff' | 'admin' | 'superAdmin';
 
 export interface IStaffEntity {
     id: number;

@@ -1,11 +1,12 @@
 import { type IJwtStaffPayload } from 'src/auth/entities/staff.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ILoanEntity, ILoanEntityPublic, LoanStatus } from './entities/loan.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 
 @Injectable()
 export class LoanService {
+    private logger = new Logger(LoanService.name);
     private loanLists: ILoanEntity[] = [];
 
     constructor() {
@@ -29,8 +30,7 @@ export class LoanService {
         const loans = this.loanLists.filter((loan) => (statuses.includes(loan.status)));
         
         if(user.role === 'staff') {
-            return loans.filter((loan) => loan.applicant.email === user.email)
-                        .map((loan) => this.hideTotalLoan(loan));
+            return loans.map((loan) => this.hideTotalLoan(loan));
         }
 
         return loans;
@@ -51,14 +51,20 @@ export class LoanService {
     }
 
     deleteLoanById(id: string): boolean {
-        const loans = this.loanLists.filter((loan) => loan.id !== id);
+        try {
+            const loans = this.loanLists.filter((loan) => loan.id !== id);
 
-        if (loans.length === this.loanLists.length) { // Nothing was deleted
-            return false;
+            if (loans.length === this.loanLists.length) { // Nothing was deleted
+                return false;
+            }
+
+            this.loanLists = loans
+            return true;
+        }catch(error) {
+            this.logger.error('Error deleting loan:', error);
+            throw error;
         }
-
-        this.loanLists = loans
-        return true;
+       
     }
     
     getLoanById(id: string): ILoanEntity | undefined {
